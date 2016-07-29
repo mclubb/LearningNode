@@ -1,0 +1,17 @@
+doctype html
+h1 Welcome, Mike
+
+p Create a new task
+form(method='post', action='/todo')
+	input(
+		name='task'
+	)
+
+	input(
+		name='btnSubmit'
+		type='submit'
+	)
+
+div(class='notes')
+		each row in pageData
+			div #{row.task}

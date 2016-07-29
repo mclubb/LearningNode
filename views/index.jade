@@ -1,0 +1,7 @@
+p hello there, this is a jade view
+
+select(id="authors_id", name="authors_id")
+	option(value="") Choose an Author
+	each author in pageData.users
+		option(value="#{author.id}") #{author.name} 
+ 
