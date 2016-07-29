@@ -19,10 +19,10 @@ app.set('view engine', 'jade');
 
 app.get('/', function(req, res) {
 	var users; 
-	getUsers(function(data) {
+	/*getUsers(function(data) {
 		users = data.result;
 		res.render('index', {pageData: {users: users}});
-	});
+	});*/
 });
 
 app.get('/todo', function(req, res) {
@@ -35,12 +35,9 @@ app.get('/todo', function(req, res) {
 });
 
 app.post('/todo', function(req, res) {
-	console.log(req.body);
-
 	connection.query('INSERT INTO todo SET ?', {task:req.body.task}, function(err, rows) {
 		res.render('todo');
 	});
-
 });
 
 app.listen(8080, function() {
@@ -50,9 +47,9 @@ app.listen(8080, function() {
 
 var getUsers = function(callback) {
 	var options = {
-		host: 'www.healthyway.com',
+		host: '',
 		port: 80,
-		path: '/endpoint/authors',
+		path: '',
 		method: 'GET'
 	};
 
