@@ -1,6 +1,6 @@
-# LearningNode
+# Learning Node
 
-This is my attempt at learning node and what it can do.
+*This is my attempt at learning node and what it can do.*
 
 ## Coding Journal
 
@@ -37,3 +37,4 @@ Removed MySQL from the app and replaced with mongodb calls
 Added CSS and Javascript files
 - Make the task list look pretty
 - Make ajax calls to update the status of a task
+-- Fight with mongodb update calls (still learning mongodb)
