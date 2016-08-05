@@ -1,42 +1,74 @@
 var http = require('http');
+var ObjectId = require('mongodb').ObjectId;
 var express = require('express');
-var app = express();
-var mysql      = require('mysql');
 var bodyParser = require('body-parser');
+var config = require('config');
+var mongoClient = require('mongodb').MongoClient;
+var app = express();
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 	  extended: true
 })); 
-var connection = mysql.createConnection({
-      host     : '192.168.1.140',
-      user     : 'todo_app',
-      password : 'calaboca',
-      database : 'todo'
+
+var db;
+mongoClient.connect("mongodb://localhost:27017/todolist", function(err, database) {
+	if( err ) {
+		console.log("Failed to connect to mongodb");
+	}
+
+	db = database;
 });
+
 
 app.set('views', './views');
 app.set('view engine', 'jade');
+app.locals.pretty = true;
+app.use(express.static(__dirname + '/public'));
 
 app.get('/', function(req, res) {
 	var users; 
-	/*getUsers(function(data) {
+	getUsers(config.get('Endpoint.healthyway'), function(data) {
 		users = data.result;
 		res.render('index', {pageData: {users: users}});
-	});*/
+	});
 });
 
 app.get('/todo', function(req, res) {
 	var data;
-	connection.query('SELECT * FROM todo', function (err, results, fields) {
-		data = results;	
-		res.render('todo', {pageData: data});
+	db.collection('list', function(err, collection) {
+		if( err ) {
+			console.log(err);
+		}
+		var items = [];
+		collection.find({}).toArray(function(err, items) {
+			res.render('todo', {pageData: items});	
+		});	
 	});
-	
 });
 
 app.post('/todo', function(req, res) {
-	connection.query('INSERT INTO todo SET ?', {task:req.body.task}, function(err, rows) {
-		res.render('todo');
+	db.collection('list', function(err, collection) {
+		if( err ) {
+			console.log(err);
+		}
+		collection.insert({task:req.body.task, completed: false});
+		res.redirect('/todo');
+	});
+});
+
+app.post('/todo/update', function(req, res) {
+	db.collection('list', function(err, collection) {
+		if( err ) {
+			console.log(err);
+		}
+		console.log("Completed: " + req.body.completed);
+		collection.update({"_id":ObjectId(req.body.id)}, {$set:{'completed':req.body.completed}}, function(err, result) {
+			if( err ) {
+				console.log('error:', err);
+			}
+			console.log(result);
+			res.json(result);
+		});
 	});
 });
 
@@ -45,11 +77,11 @@ app.listen(8080, function() {
 });
 
 
-var getUsers = function(callback) {
+var getUsers = function(config, callback) {
 	var options = {
-		host: '',
+		host: config.host,
 		port: 80,
-		path: '',
+		path: '/endpoint/authors',
 		method: 'GET'
 	};
 

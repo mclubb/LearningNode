@@ -1,7 +1,16 @@
-p hello there, this is a jade view
-
-select(id="authors_id", name="authors_id")
-	option(value="") Choose an Author
-	each author in pageData.users
-		option(value="#{author.id}") #{author.name} 
+doctype html
+html
+	head
+		title Authors in Hemingway
+		style
+			include style.css
+	body
+		each author in pageData.users
+			div(class='author')
+				img(src="#{author.avatar_url}" width="72px" class='avatar')
+				span #{author.name} 
+				span #{author.email} 
+				span #{author.tagline} 
  
+		script(src='https://code.jquery.com/jquery-2.2.4.min.js')
+		script(src='/script.js')
