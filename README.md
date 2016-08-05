@@ -2,9 +2,9 @@
 
 This is my attempt at learning node and what it can do.
 
-Coding Journal
+## Coding Journal
 
-Setup Nodejs
+Install Nodejs and NPM
 
 Created Project by starting with package.json and setting up a very generic file
 
@@ -28,7 +28,7 @@ Created a todo list view with no styles what so ever
 Added the config package
 - Removed hardcoded entries to local mysql db in favor of using the config package
 
-Installed MongoDB
+Install MongoDB
 
 Learned how to use MongoDB
 
