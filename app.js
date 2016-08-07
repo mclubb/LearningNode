@@ -4,6 +4,8 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var config = require('config');
 var mongoClient = require('mongodb').MongoClient;
+var sassMiddleware = require('node-sass-middleware');
+var path = require('path');
 var app = express();
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
@@ -23,6 +25,15 @@ mongoClient.connect("mongodb://localhost:27017/todolist", function(err, database
 app.set('views', './views');
 app.set('view engine', 'jade');
 app.locals.pretty = true;
+console.log( __dirname);
+app.use(sassMiddleware({
+	    /* Options */
+	    src: __dirname + '/sass',
+	    dest: path.join(__dirname, 'public/css'),
+	    debug: false,
+	    outputStyle: 'compressed',
+	    prefix:  '/css'  // Where prefix is at <link rel="stylesheets" href="prefix/style.css"/>
+}));
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', function(req, res) {
@@ -61,14 +72,22 @@ app.post('/todo/update', function(req, res) {
 		if( err ) {
 			console.log(err);
 		}
-		console.log("Completed: " + req.body.completed);
 		collection.update({"_id":ObjectId(req.body.id)}, {$set:{'completed':req.body.completed}}, function(err, result) {
 			if( err ) {
 				console.log('error:', err);
 			}
-			console.log(result);
 			res.json(result);
 		});
+	});
+});
+
+app.post('/todo/delete', function(req, res) {
+	db.collection('list', function(err, collection) {
+		if( err ) {
+			console.log(err);
+		}
+		collection.remove({"_id":ObjectId(req.body.id)});
+		res.json({status: 'success'});
 	});
 });
 

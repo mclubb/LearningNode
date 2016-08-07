@@ -9,7 +9,9 @@
     "express": "^4.14.0",
     "http": "^0.0.0",
     "jade": "^1.11.0",
-    "mongodb": "^2.2.5"
+    "mongodb": "^2.2.5",
+    "node-sass-middleware": "^0.9.8",
+    "path": "^0.12.7"
   },
   "devDependencies": {
     "react-tools": "^0.13.3"

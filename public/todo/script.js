@@ -9,4 +9,15 @@ $(document).ready(function() {
 			}
 		});
 	});
+
+	$(".notes").on('click', '.glyphicon-trash', function() {
+		$.ajax({
+			url: '/todo/delete',
+		       	method: 'POST',
+			data: {id: $(this).attr('data-id') },
+			success: function(data) {
+				$(this).parent().remove();
+			}.bind(this)
+		});	
+	});
 });

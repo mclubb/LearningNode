@@ -1,0 +1,61 @@
+.todo_wrapper {
+  margin: auto;
+  width: 500px;
+  background-color: #FFF;
+	.header {
+	display: block;
+	font-weight: bold;
+	font-size: 112px;
+	font-family: 'Titillium Web', sans-serif;
+	text-align: center;
+	margin-bottom: -35px;
+	}
+
+	.subheader {
+	display: block;
+	font-size: 22px;
+	font-family: 'Titillium Web', sans-serif;
+	text-align: center;
+	margin-bottom: 10px;
+	}
+
+	.notes {
+		padding: 10px;
+	}
+
+	.row {
+		font-size: 20px;
+		padding: 10px;
+		border-top: 1px solid rgb(244, 244, 244);
+		position: relative;
+
+		input {
+			margin-right: 10px;
+		}
+
+		i {
+			color: grey;
+			top: 15px;
+			right: 0px;
+			position: absolute;
+		}
+
+		i:hover {
+			color: #000;
+		}
+	}
+
+	.row:last-child {
+		border-bottom: 1px solid rgb(244, 244, 244);
+	}
+
+	.newTask {
+		margin-bottom: 10px;
+
+		.txtNewTask {
+			width: 82%;
+		}
+	}
+
+}
+
