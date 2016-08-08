@@ -57,13 +57,17 @@ app.get('/todo', function(req, res) {
 	});
 });
 
-app.post('/todo', function(req, res) {
+app.post('/todo/create', function(req, res) {
 	db.collection('list', function(err, collection) {
 		if( err ) {
 			console.log(err);
 		}
-		collection.insert({task:req.body.task, completed: false});
-		res.redirect('/todo');
+		collection.insert({task:req.body.task, completed: req.body.completed}, function(err, result) {
+			if( err ) {
+				res.json({status: 'failed'});
+			}
+			res.json({status: 'success', 'result': result});
+		});
 	});
 });
 

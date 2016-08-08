@@ -1,22 +1,28 @@
+body {
+	margin: 0;
+	width: 100%;
+}
+
 .todo_wrapper {
   margin: auto;
   width: 500px;
   background-color: #FFF;
 	.header {
-	display: block;
-	font-weight: bold;
-	font-size: 112px;
-	font-family: 'Titillium Web', sans-serif;
-	text-align: center;
-	margin-bottom: -35px;
+		text-transform: uppercase;	
+		display: block;
+		font-weight: bold;
+		font-size: 112px;
+		font-family: 'Titillium Web', sans-serif;
+		text-align: center;
+		margin-bottom: -35px;
 	}
 
 	.subheader {
-	display: block;
-	font-size: 22px;
-	font-family: 'Titillium Web', sans-serif;
-	text-align: center;
-	margin-bottom: 10px;
+		display: block;
+		font-size: 22px;
+		font-family: 'Titillium Web', sans-serif;
+		text-align: center;
+		margin-bottom: 10px;
 	}
 
 	.notes {
@@ -59,3 +65,106 @@
 
 }
 
+.navigation {
+	width: 100%;
+	background-color: #000;
+	color: #fff;
+	padding: 10px;
+		
+	a {
+		color: #fff;
+		text-decoration: none;
+	}
+
+	a:hover {
+		cursor: pointer;
+	}
+}
+
+.banner {
+	clear: both;
+	width: 100%;
+	height: 500px;
+	background-position: center;
+	background-image: url('/images/nodejs_logo_green.jpg');
+	background-size: cover;
+	background-repeat: none;
+	position: relative;
+
+	span {
+		position: absolute;
+		display: block;
+		padding: 10px;
+		background-color: rgb(255, 255, 255);
+		opacity: .5;
+		bottom: 0px;
+		font-size: 72px;
+		text-align: center;
+		width: 100%;
+	}
+}
+
+.tech {
+	width: 100%;
+	height: 250px;
+	position: relative;
+	background-color: #000;
+
+	span {
+		position: absolute;
+		bottom: 0px;
+		background-color: #ffffff;
+		opacity: .5;
+		text-align: center;
+		width: 100%;
+		display: block;
+		padding: 10px;
+		font-size: 72px;
+		color: #000;
+	}
+	.details {
+		width: 1100px;
+		margin: 0px auto;
+
+		.mongodb {
+			background-image: url('/images/mongodb.jpg');
+			background-size: cover;
+			width:250;
+			min-width: 250px;
+			min-height: 250px;
+			margin-right: 25px;
+			float: left;
+		}
+
+		.express {
+			background-image: url('/images/express.svg');
+			background-size: cover;
+			width:250;
+			min-width: 250px;
+			min-height: 250px;
+			margin-right: 25px;
+			float: left;
+		}
+
+		.react {
+			background-image: url('/images/react.png');
+			background-size: cover;
+			width:250;
+			min-width: 250px;
+			min-height: 250px;
+			margin-right: 25px;
+			float: left;
+		}
+
+		.node {
+			background-image: url('/images/nodejs.png');
+			background-size: cover;
+			width:250;
+			min-width: 250px;
+			min-height: 250px;
+			margin-right: 25px;
+			float: left;
+		}
+
+	}
+}

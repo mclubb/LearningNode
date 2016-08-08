@@ -1,40 +1,18 @@
 doctype html
 html
 	head
-		title Simple ToDo List
+		title Todo List
 		link(href="https://fonts.googleapis.com/css?family=Titillium+Web:900" rel="stylesheet")
 		link(href='/css/main.css' rel='stylesheet')
 		link(href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' rel='stylesheet')
 	body
-		div(class='todo_wrapper')
-			span(class='header') TODAY
-			span(class='subheader') I will accomplish...
+		#example
 
-			div(class='newTask')
-				form(method='post', action='/todo')
-					input(
-						name='task'
-						class='txtNewTask'
-					)
-
-					input(
-						class='btn btn-primary'
-						name='btnSubmit'
-						type='submit'
-						value="Add Task"
-					)
-
-			div(class='notes')
-					each row in pageData
-						div(class='row') 
-							input(
-								type="checkbox"
-								name="#{row._id}"
-								checked=(row.completed == 'true')
-							) 
-							span #{row.task}
-							i(data-id="#{row._id}" class='glyphicon glyphicon-trash')
-
-		script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')
 		script(src='https://code.jquery.com/jquery-2.2.4.min.js')
-		script(src='/todo/script.js')
+		script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')
+		script(src='/javascript/build/react.min.js')
+		script(src='/javascript/build/react-dom.min.js')
+		script(src='/javascript/build/todo.js')
+		script.
+			props=!{JSON.stringify(pageData)};
+		script(src='/javascript/build/test.js')

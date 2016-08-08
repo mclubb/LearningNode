@@ -1,1 +1,4 @@
 node_modules
+public/javascript
+public/css
+.DS_Store
