@@ -95,7 +95,7 @@ app.post('/todo/delete', function(req, res) {
 	});
 });
 
-app.listen(8080, function() {
+app.listen(8080, '0.0.0.0', function() {
 	console.log('Starting server on port 8080' + "\n");
 });
 
