@@ -37,10 +37,50 @@ app.use(sassMiddleware({
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', function(req, res) {
-	var users; 
+	/*var users; 
 	getUsers(config.get('Endpoint.healthyway'), function(data) {
 		users = data.result;
 		res.render('index', {pageData: {users: users}});
+	});
+	*/
+	db.collection('posts', function(err, collection) {
+		if( err ) {
+			console.log(err);
+		}
+
+		collection.find({}).toArray(function(err, posts) {
+			res.render('index', {posts: posts});
+		});
+	});
+});
+
+app.get('/blog', function(req, res) {
+	db.collection('posts', function(err, collection) {
+		if( err ) {
+			console.log(err);
+		}
+
+		collection.find({}).toArray(function(err, posts) {
+			res.render('blog', {posts: posts});
+		});
+	});
+});
+
+app.get('/blog/create', function(req, res) {
+	res.render('blog_create');
+});
+
+app.post('/blog/create', function(req, res) {
+	db.collection('posts', function(err, collection) {
+		if( err ) {
+			console.log(err);
+		}
+		collection.insert({title:req.body.title, body:req.body.body}, function(err, result) {
+			if( err ){
+				console.log(err);
+			}
+			res.json({status: 'success', 'result': result});
+		});
 	});
 });
 

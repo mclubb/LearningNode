@@ -15,3 +15,7 @@ html
 				.express
 				.react
 				.node
+		.blog
+			each post in posts
+				h1 #{post.title}
+				p #{post.body}
