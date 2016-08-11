@@ -1,18 +1,18 @@
-var http = require('http');
-var ObjectId = require('mongodb').ObjectId;
-var express = require('express');
-var bodyParser = require('body-parser');
-var config = require('config');
-var mongoClient = require('mongodb').MongoClient;
-var sassMiddleware = require('node-sass-middleware');
-var path = require('path');
-var app = express();
+const http = require('http');
+const ObjectId = require('mongodb').ObjectId;
+const express = require('express');
+const bodyParser = require('body-parser');
+const config = require('config');
+const mongoClient = require('mongodb').MongoClient;
+const sassMiddleware = require('node-sass-middleware');
+const path = require('path');
+const app = express();
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 	  extended: true
 })); 
 
-var db;
+const db;
 mongoClient.connect("mongodb://localhost:27017/todolist", function(err, database) {
 	if( err ) {
 		console.log("Failed to connect to mongodb");
@@ -20,6 +20,13 @@ mongoClient.connect("mongodb://localhost:27017/todolist", function(err, database
 
 	db = database;
 });
+
+/**
+ * Routes
+ */
+const homeController = require('./controllers/home');
+const todoController = require('./controllers/todo');
+const blogController = require('./controllers/blog');
 
 
 app.set('views', './views');
@@ -36,104 +43,18 @@ app.use(sassMiddleware({
 }));
 app.use(express.static(__dirname + '/public'));
 
-app.get('/', function(req, res) {
-	/*var users; 
-	getUsers(config.get('Endpoint.healthyway'), function(data) {
-		users = data.result;
-		res.render('index', {pageData: {users: users}});
-	});
-	*/
-	db.collection('posts', function(err, collection) {
-		if( err ) {
-			console.log(err);
-		}
+app.get('/', homeController.index);
+app.get('/blog', blogController.index);
+app.get('/blog/create', blogController.create);
+app.post('/blog/create', blogController.post_create);
 
-		collection.find({}).toArray(function(err, posts) {
-			res.render('index', {posts: posts});
-		});
-	});
-});
+app.get('/todo', todoController.index);
 
-app.get('/blog', function(req, res) {
-	db.collection('posts', function(err, collection) {
-		if( err ) {
-			console.log(err);
-		}
+app.post('/todo/create', todoController.create);
 
-		collection.find({}).toArray(function(err, posts) {
-			res.render('blog', {posts: posts});
-		});
-	});
-});
+app.post('/todo/update', todoController.update);
 
-app.get('/blog/create', function(req, res) {
-	res.render('blog_create');
-});
-
-app.post('/blog/create', function(req, res) {
-	db.collection('posts', function(err, collection) {
-		if( err ) {
-			console.log(err);
-		}
-		collection.insert({title:req.body.title, body:req.body.body}, function(err, result) {
-			if( err ){
-				console.log(err);
-			}
-			res.json({status: 'success', 'result': result});
-		});
-	});
-});
-
-app.get('/todo', function(req, res) {
-	var data;
-	db.collection('list', function(err, collection) {
-		if( err ) {
-			console.log(err);
-		}
-		var items = [];
-		collection.find({}).toArray(function(err, items) {
-			res.render('todo', {pageData: items});	
-		});	
-	});
-});
-
-app.post('/todo/create', function(req, res) {
-	db.collection('list', function(err, collection) {
-		if( err ) {
-			console.log(err);
-		}
-		collection.insert({task:req.body.task, completed: req.body.completed}, function(err, result) {
-			if( err ) {
-				res.json({status: 'failed'});
-			}
-			res.json({status: 'success', 'result': result});
-		});
-	});
-});
-
-app.post('/todo/update', function(req, res) {
-	db.collection('list', function(err, collection) {
-		if( err ) {
-			console.log(err);
-		}
-		collection.update({"_id":ObjectId(req.body.id)}, {$set:{'completed':req.body.completed}}, function(err, result) {
-			if( err ) {
-				console.log('error:', err);
-			}
-			res.json(result);
-		});
-	});
-});
-
-app.post('/todo/delete', function(req, res) {
-	db.collection('list', function(err, collection) {
-		if( err ) {
-			console.log(err);
-		}
-		collection.remove({"_id":ObjectId(req.body.id)});
-		res.json({status: 'success'});
-	});
-});
+app.post('/todo/delete', todoController.delete);
 
 app.listen(8080, '0.0.0.0', function() {
 	console.log('Starting server on port 8080' + "\n");
