@@ -1,6 +1,9 @@
+const ObjectId = require('mongodb').ObjectId;
+var db = require('../db.js');
+
 exports.index = (req, res) => {
 	var data;
-	db.collection('list', function(err, collection) {
+	db.get().collection('list', function(err, collection) {
 		if( err ) {
 			console.log(err);
 		}
@@ -12,7 +15,7 @@ exports.index = (req, res) => {
 };
 
 exports.create = (req, res) => {
-	db.collection('list', function(err, collection) {
+	db.get().collection('list', function(err, collection) {
 		if( err ) {
 			console.log(err);
 		}
@@ -26,7 +29,7 @@ exports.create = (req, res) => {
 };
 
 exports.update = (req, res) => {
-	db.collection('list', function(err, collection) {
+	db.get().collection('list', function(err, collection) {
 		if( err ) {
 			console.log(err);
 		}
@@ -40,7 +43,7 @@ exports.update = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-	db.collection('list', function(err, collection) {
+	db.get().collection('list', function(err, collection) {
 		if( err ) {
 			console.log(err);
 		}

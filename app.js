@@ -3,7 +3,6 @@ const ObjectId = require('mongodb').ObjectId;
 const express = require('express');
 const bodyParser = require('body-parser');
 const config = require('config');
-const mongoClient = require('mongodb').MongoClient;
 const sassMiddleware = require('node-sass-middleware');
 const path = require('path');
 const app = express();
@@ -11,15 +10,6 @@ app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 	  extended: true
 })); 
-
-const db;
-mongoClient.connect("mongodb://localhost:27017/todolist", function(err, database) {
-	if( err ) {
-		console.log("Failed to connect to mongodb");
-	}
-
-	db = database;
-});
 
 /**
  * Routes
@@ -56,8 +46,17 @@ app.post('/todo/update', todoController.update);
 
 app.post('/todo/delete', todoController.delete);
 
-app.listen(8080, '0.0.0.0', function() {
-	console.log('Starting server on port 8080' + "\n");
+var db = require('./db.js');
+
+db.connect('mongodb://localhost:27017/todolist', function(err) {
+	if( err ) {
+		console.log('Unable to connect to Mongo');
+		process.exit(1);
+	} else {
+		app.listen(8080, '0.0.0.0', function() {
+			console.log('Starting server on port 8080' + "\n");
+		});
+	}
 });
 
 

@@ -1,5 +1,7 @@
+var db = require('../db.js');
+
 exports.index = (req, res) => {
-	db.collection('posts', function(err, collection) {
+	db.get().collection('posts', function(err, collection) {
 		if( err ) {
 			console.log(err);
 		}
