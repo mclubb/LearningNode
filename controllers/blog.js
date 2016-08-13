@@ -24,7 +24,7 @@ exports.post_create = (req, res) => {
 			if( err ){
 				console.log(err);
 			}
-			res.json({status: 'success', 'result': result});
+			res.redirect('/');
 		});
 	});
 };
