@@ -38,3 +38,14 @@ Added CSS and Javascript files
 - Make the task list look pretty
 - Make ajax calls to update the status of a task
 -  Fight with mongodb update calls (still learning mongodb)
+
+Lots of stuff happened here
+Once I had a working todo list I converted it to use React.js
+Then I created a cheesy index page which just shows the Project Name and the technologies use
+I created a very, very, very basic blogging platform (using that term very loosely)
+- Title
+- Body
+- Created At
+Added the 5 last blog posts to show up on the index page
+Changed the routing to use modules instead of the code sitting in app.js
+Added passport for local authentication (Login and Registration still needs a ton of work)
