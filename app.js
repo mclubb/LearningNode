@@ -6,23 +6,27 @@ const config = require('config');
 const sassMiddleware = require('node-sass-middleware');
 const path = require('path');
 const app = express();
+const mongoose = require('mongoose');
+const passport = require('passport');
+const expressSession = require('express-session');
+const flash = require('connect-flash');
+
+app.use(expressSession({secret: 'mySecretKey', saveUninitialized: true, resave: false}));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 	  extended: true
 })); 
+app.use(flash());
 
-/**
- * Routes
- */
-const homeController = require('./controllers/home');
-const todoController = require('./controllers/todo');
-const blogController = require('./controllers/blog');
+mongoose.connect('mongodb://localhost:27017/passport');
+
 
 
 app.set('views', './views');
 app.set('view engine', 'jade');
 app.locals.pretty = true;
-console.log( __dirname);
 app.use(sassMiddleware({
 	    /* Options */
 	    src: __dirname + '/sass',
@@ -33,20 +37,30 @@ app.use(sassMiddleware({
 }));
 app.use(express.static(__dirname + '/public'));
 
+var initPassport = require('./passport/init');
+initPassport(passport);
+
+/**
+ * Routes
+ */
+const homeController = require('./controllers/home');
+const todoController = require('./controllers/todo');
+const blogController = require('./controllers/blog')(passport);
+const loginController = require('./controllers/login')(passport);
+const signupController = require('./controllers/registration')(passport);
+
+/* Routes */
 app.get('/', homeController.index);
-app.get('/blog', blogController.index);
-app.get('/blog/create', blogController.create);
-app.post('/blog/create', blogController.post_create);
-
 app.get('/todo', todoController.index);
-
 app.post('/todo/create', todoController.create);
-
 app.post('/todo/update', todoController.update);
-
 app.post('/todo/delete', todoController.delete);
+app.use('/blog', blogController);
+app.use('/login', loginController);
+app.use('/signup', signupController);
 
 var db = require('./db.js');
+
 
 db.connect('mongodb://localhost:27017/todolist', function(err) {
 	if( err ) {
